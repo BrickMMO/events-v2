@@ -23,8 +23,24 @@ if ($year < 2000 || $year > 2100) $year = date('Y');
 
 // Calculate first and last day of month
 $first_day = mktime(0, 0, 0, $month, 1, $year);
+$last_day = mktime(0, 0, 0, $month + 1, -0, $year);
 $days_in_month = date('t', $first_day);
 $day_of_week = date('w', $first_day); // 0 (Sunday) to 6 (Saturday)
+
+// Get first and last event dates
+$quey = 'SELECT MIN(starts_at) AS starts_at
+    FROM events';
+$result = mysqli_query($connect, $quey);
+$record = mysqli_fetch_array($result);
+
+$first_event = strtotime($record['starts_at']);
+
+$quey = 'SELECT MAX(starts_at) AS starts_at
+    FROM events';
+$result = mysqli_query($connect, $quey);
+$record = mysqli_fetch_array($result);
+
+$last_event = strtotime($record['starts_at']);
 
 // Calculate previous and next month
 $prev_month = $month - 1;
@@ -55,19 +71,23 @@ $result = mysqli_query($connect, $query);
 
 // Organize events by day
 $events_by_day = array();
-while ($record = mysqli_fetch_assoc($result)) {
+while ($record = mysqli_fetch_assoc($result)) 
+{
+
     $start_day = date('j', strtotime($record['starts_at']));
     $end_day = date('j', strtotime($record['ends_at']));
     $start_month = date('n', strtotime($record['starts_at']));
     $end_month = date('n', strtotime($record['ends_at']));
     
     // Add event to each day it spans in this month
-    for ($d = 1; $d <= $days_in_month; $d++) {
+    for ($d = 1; $d <= $days_in_month; $d++) 
+    {
         $current_date = date('Y-m-d', mktime(0, 0, 0, $month, $d, $year));
         $event_start = date('Y-m-d', strtotime($record['starts_at']));
         $event_end = date('Y-m-d', strtotime($record['ends_at']));
         
-        if ($current_date >= $event_start && $current_date <= $event_end) {
+        if ($current_date >= $event_start && $current_date <= $event_end) 
+        {
             if (!isset($events_by_day[$d])) $events_by_day[$d] = array();
             $events_by_day[$d][] = $record;
         }
@@ -89,17 +109,21 @@ $month_name = date('F Y', $first_day);
 
     <!-- Calendar Navigation -->
     <div class="w3-bar w3-margin-bottom" style="display: flex; align-items: center;">
-        <a href="/calendar/month/<?=$prev_month?>/year/<?=$prev_year?>" class="w3-button w3-white w3-border">
-            <i class="fa-solid fa-chevron-left"></i> Previous
-        </a>
+        <?php if($first_event < $first_day): ?>
+            <a href="/calendar/month/<?=$prev_month?>/year/<?=$prev_year?>" class="w3-button w3-white w3-border">
+                <i class="fa-solid fa-chevron-left"></i> Previous
+            </a>
+        <?php endif; ?>
         
         <div style="flex: 1; text-align: center;">
             <h2 style="margin: 0;"><?=$month_name?></h2>
         </div>
         
-        <a href="/calendar/month/<?=$next_month?>/year/<?=$next_year?>" class="w3-button w3-white w3-border">
-            Next <i class="fa-solid fa-chevron-right"></i>
-        </a>
+        <?php if($last_event > $last_day): ?>
+            <a href="/calendar/month/<?=$next_month?>/year/<?=$next_year?>" class="w3-button w3-white w3-border">
+                Next <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        <?php endif; ?>
     </div>
 
     <!-- Calendar Grid -->
