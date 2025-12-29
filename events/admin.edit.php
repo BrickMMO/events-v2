@@ -7,8 +7,10 @@ if(
     !isset($_GET['key']) || 
     !is_numeric($_GET['key']))
 {
+
     message_set('Tag Error', 'There was an error with the provided QR code.');
     header_redirect('/console/dashboard');
+
 }
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
@@ -50,7 +52,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $query = 'SELECT *
@@ -70,6 +71,7 @@ $record = mysqli_fetch_assoc($result);
     />
     Events
 </h1>
+
 <p>
     <a href="<?=ENV_DOMAIN?>/admin/dashboard">Events</a> / 
     Edit Event
@@ -79,7 +81,6 @@ $record = mysqli_fetch_assoc($result);
 
 <h2>Edit Event: <?=$record['name']?></h2>
 
-<!-- Edit form -->
 <form
     method="post"
     novalidate
@@ -220,6 +221,5 @@ $record = mysqli_fetch_assoc($result);
 <?php
 
 include('../templates/main_footer.php');
+include('../templates/debug.php');
 include('../templates/html_footer.php');
-
-?>

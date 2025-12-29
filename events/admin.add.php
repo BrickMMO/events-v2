@@ -12,8 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         !validate_blank($_POST['starts_at']) ||
         !validate_blank($_POST['ends_at']))
     {
+
         message_set('Event Error', 'There was an error with the provided event.', 'red');
         header_redirect('/admin/dashboard');
+
     }
 
     // Save QR code details to the database
@@ -42,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     message_set('Event Success', 'Event has been successfully created.');
     header_redirect('/admin/dashboard');
+
 }
 
 define('APP_NAME', 'Events');
@@ -53,7 +56,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 ?>
@@ -66,6 +68,7 @@ include('../templates/message.php');
     />
     Events
 </h1>
+
 <p>
     <a href="<?=ENV_DOMAIN?>/admin/dashboard">Events</a> / 
     Add Event
@@ -209,6 +212,5 @@ include('../templates/message.php');
 <?php
 
 include('../templates/main_footer.php');
+include('../templates/debug.php');
 include('../templates/html_footer.php');
-
-?>

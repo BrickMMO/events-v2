@@ -9,6 +9,7 @@ if(
     isset($_GET['delete']) && 
     is_numeric($_GET['delete']))
 {
+
     $query = 'UPDATE events SET
         thumbnail = NULL
         WHERE id = '.$_GET['delete'].'
@@ -17,14 +18,17 @@ if(
     
     message_set('Thumbnail Delete Success', 'Event thumbnail has been deleted.');
     header_redirect('/admin/thumbnail/delete/'.$_GET['delete']);
+    
 }
 
 if(
     !isset($_GET['key']) || 
     !is_numeric($_GET['key']))
 {
+
     message_set('Event Error', 'There was an error with the provided event.');
     header_redirect('/admin/dashboard');
+
 }
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
@@ -33,8 +37,10 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
     if (
         !validate_image($_FILES['thumbnail']))
     {
+
         message_set('Thumbnail Upload Error', 'There was an error with your uploaded image.', 'red');
         header_redirect('/admin/thumbnail?key='.$_GET['key']);
+
     }
 
     $image = Wideimage::load($_FILES['thumbnail']['tmp_name']);
@@ -62,7 +68,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $query = 'SELECT *
@@ -73,8 +78,6 @@ $result = mysqli_query($connect, $query);
 $record = mysqli_fetch_assoc($result);
 
 ?>
-
-<!-- CONTENT -->
 
 <h1 class="w3-margin-top w3-margin-bottom">
     <img
@@ -89,6 +92,7 @@ $record = mysqli_fetch_assoc($result);
     <a href="<?=ENV_DOMAIN?>/admin/dashboard">Events</a> / 
     Event Thumbnail
 </p>
+
 <hr />
 
 <h2>Event Thumbnail: <?=$record['name']?></h2>
@@ -103,8 +107,7 @@ $record = mysqli_fetch_assoc($result);
         <i class="fa-solid fa-trash fa-padding-right"></i>
         Delete Thumbnail
     </a>
-            
-        
+              
 <?php endif; ?>
 
 <p>The event thumbnail must be a jpg, png, or gif. Images will be resized and cropped to 400 x 400.</p>
@@ -128,9 +131,11 @@ $record = mysqli_fetch_assoc($result);
         <i class="fa-solid fa-image fa-padding-right"></i>
         Update Thumbnail
     </button>
+
 </form>
     
 <?php
 
 include('../templates/main_footer.php');
+include('../templates/debug.php');
 include('../templates/html_footer.php');

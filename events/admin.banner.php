@@ -9,6 +9,7 @@ if(
     isset($_GET['delete']) && 
     is_numeric($_GET['delete']))
 {
+
     $query = 'UPDATE events SET
         banner = NULL
         WHERE id = '.$_GET['delete'].'
@@ -17,14 +18,17 @@ if(
     
     message_set('Banner Delete Success', 'Event banner has been deleted.');
     header_redirect('/admin/banner/'.$_GET['delete']);
+
 }
 
 if(
     !isset($_GET['key']) || 
     !is_numeric($_GET['key']))
 {
+
     message_set('Event Error', 'There was an error with the provided event.');
     header_redirect('/admin/dashboard');
+
 }
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
@@ -62,7 +66,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $query = 'SELECT *
@@ -74,8 +77,6 @@ $record = mysqli_fetch_assoc($result);
 
 ?>
 
-<!-- CONTENT -->
-
 <h1 class="w3-margin-top w3-margin-bottom">
     <img
         src="https://cdn.brickmmo.com/icons@1.0.0/events.png"
@@ -84,10 +85,12 @@ $record = mysqli_fetch_assoc($result);
     />
     Events
 </h1>
+
 <p>
     <a href="<?=ENV_DOMAIN?>/admin/dashboard">Events</a> / 
     Event Banner
 </p>
+
 <hr />
 
 <h2>Event Banner: <?=$record['name']?></h2>
@@ -102,8 +105,7 @@ $record = mysqli_fetch_assoc($result);
         <i class="fa-solid fa-trash fa-padding-right"></i>
         Delete Banner
     </a>
-            
-        
+   
 <?php endif; ?>
 
 <p>The event banner must be a jpg, png, or gif. Images will be resized and cropped to 800 x 400.</p>
@@ -127,11 +129,11 @@ $record = mysqli_fetch_assoc($result);
         <i class="fa-solid fa-image fa-padding-right"></i>
         Update Banner
     </button>
+
 </form>
     
 <?php
 
 include('../templates/main_footer.php');
+include('../templates/debug.php');
 include('../templates/html_footer.php');
-
-?>
