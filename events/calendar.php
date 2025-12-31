@@ -111,7 +111,6 @@ $month_name = date('F Y', $first_day);
 
 <hr>
 
-<!-- Calendar Navigation -->
 <div class="w3-bar w3-margin-bottom" style="display: flex; align-items: center;">
     <?php if($first_event < $first_day): ?>
         <a href="<?=ENV_DOMAIN?>/calendar/month/<?=$prev_month?>/year/<?=$prev_year?>" class="w3-button w3-white w3-border">

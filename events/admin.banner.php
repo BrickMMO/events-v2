@@ -37,8 +37,10 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
     if (
         !validate_image($_FILES['banner']))
     {
+
         message_set('Banner Upload Error', 'There was an error with your uploaded image.', 'red');
         header_redirect('/admin/banner/delete');
+        
     }
 
     $image = Wideimage::load($_FILES['banner']['tmp_name']);

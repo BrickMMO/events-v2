@@ -20,7 +20,6 @@ $record = mysqli_fetch_assoc($result);
 
 ?>
 
-
 <div class="w3-center">
     <h1><?=$record['name']?></h1>
 </div>
@@ -28,13 +27,17 @@ $record = mysqli_fetch_assoc($result);
 <hr>
 
 <?php if($record['banner']): ?>
+
     <img src="<?=$record['banner']?>" class="w3-image" style="width: 100%;">
+
 <?php endif; ?>
 
 <p><?=nl2br($record['description'])?></p>
 
 <?php if(!$record['registration']): ?>
+
     <p>Note: <span class="w3-bold">No registration required, just show up!</span></p>
+
 <?php endif; ?>
 
 <hr>
@@ -48,21 +51,28 @@ $record = mysqli_fetch_assoc($result);
 <hr>
 
 <?php if($record['registration']): ?>
+
     <a href="<?=$record['registration']?>" class="w3-button w3-white w3-border">
         <i class="fa-solid fa-pen fa-padding-right"></i> Register
     </a>
+
     <hr>
+
 <?php endif; ?>
 
 <?php if($record['online']): ?>
+
     <a href="<?=$record['online']?>" class="w3-button w3-white w3-border">
         <i class="fa-solid fa-globe fa-padding-right"></i> Join Online
     </a>
+
 <?php endif; ?>
+
 <a href="<?=ENV_DOMAIN?>/list" class="w3-button w3-white w3-border">
     <i class="fa-solid fa-caret-left fa-padding-right"></i>
     Back to Event List
 </a>
+
 <a href="<?=ENV_DOMAIN?>/calendar" class="w3-button w3-white w3-border">
     <i class="fa-solid fa-calendar fa-padding-right"></i>
     Back to Calendar View
